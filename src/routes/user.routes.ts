@@ -1,9 +1,17 @@
 import { Router } from "express";
-import { getUser, createUser } from "./user.controller";
+import { getUser, createUser } from "../controllers/user.controller";
+import passport from "passport";
 
 const router = Router();
 
-router.get("/signin", getUser);
-router.post("/signup", createUser);
+//router.post("/signin", getUser);
+//router.post("/signup", createUser);
+router.get(
+  "/usermain",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.send("exito en ingresar a pagina de usuario con passport y jwt");
+  }
+);
 
 export default router;
