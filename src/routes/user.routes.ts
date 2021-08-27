@@ -14,4 +14,11 @@ router.get(
   }
 );
 
+router.get(
+  "/orders",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({ message: "menu para recuperar ordenes" });
+  }
+);
 export default router;

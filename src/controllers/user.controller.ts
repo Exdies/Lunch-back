@@ -11,6 +11,8 @@ function createToken(user: IUser) {
   });
 }
 
+//const verifyJWT = (req, res, next) =>
+
 export const getUser: RequestHandler = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
@@ -20,7 +22,7 @@ export const getUser: RequestHandler = async (req, res) => {
   if (match) {
     return res.status(200).json({ token: createToken(user) });
   } else {
-    return res.status(400).json({
+    return res.status(401).json({
       message: "El mail o contraseña es incorrecto",
     });
   }
