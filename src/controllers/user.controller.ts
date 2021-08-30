@@ -20,7 +20,9 @@ export const getUser: RequestHandler = async (req, res) => {
   }
   const match = await user.comparePassword(req.body.password);
   if (match) {
-    return res.status(200).json({ token: createToken(user) });
+    const token = createToken(user);
+    res.header("auth-token", token).json(token);
+    //return res.status(200).json({ token: createToken(user) });
   } else {
     return res.status(401).json({
       message: "El mail o contraseña es incorrecto",
