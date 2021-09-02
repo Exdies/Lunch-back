@@ -1,11 +1,14 @@
 import { Schema, model, Document } from "mongoose";
 import bcrypt from "bcrypt";
+import { IOrders } from "./Orders";
+import mongoose from "mongoose";
 
 export interface IUser extends Document {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
+  orders?: IOrders["_id"];
   comparePassword: (password: string) => Promise<boolean>;
 }
 
@@ -29,6 +32,12 @@ const userSchema = new Schema<IUser>(
       type: String,
       require: true,
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Orders",
+      },
+    ],
   },
   {
     collection: "users",

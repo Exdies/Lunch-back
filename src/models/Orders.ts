@@ -1,13 +1,14 @@
 import { Schema, model, Document } from "mongoose";
 import { IUser } from "./User";
+import mongoose from "mongoose";
 
 export interface IOrders extends Document {
+  owner: IUser["_id"];
   name: string;
   link: string;
   details: string;
   amount: number;
-  //owner: string;
-  users: Array<IUser>;
+  users?: IUser["_id"];
   date_created: string;
   date_limit: string;
   status: boolean;
@@ -15,6 +16,10 @@ export interface IOrders extends Document {
 
 const orderSchema = new Schema<IOrders>(
   {
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     name: {
       type: String,
       require: true,
@@ -34,20 +39,8 @@ const orderSchema = new Schema<IOrders>(
     },
     users: [
       {
-        firstName: {
-          type: String,
-          require: true,
-        },
-        lastName: {
-          type: String,
-          require: true,
-        },
-        email: {
-          type: String,
-          require: true,
-          lowercase: true,
-          unique: true,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     date_created: {
